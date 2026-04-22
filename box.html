@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Box Center</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0a0a0a;
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;
+}
+
+.box {
+  background: #151515;
+  border: 1px solid #222;
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 460px;
+  width: 90%;
+  text-align: center;
+  z-index: 10;
+  position: relative;
+}
+
+.box p {
+  color: #ccc;
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+.buttons {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+}
+
+.btn {
+  padding: 12px 32px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: none;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: #ff2d75;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 6px 24px rgba(255, 45, 117, 0.35);
+}
+
+.btn-secondary {
+  background: #1e1e1e;
+  color: #ccc;
+  border: 1px solid #333;
+}
+
+.btn-secondary:hover {
+  background: #252525;
+  box-shadow: 0 6px 24px rgba(255, 255, 255, 0.05);
+}
+
+/* Yes buttons scattered outside */
+.yes-btn {
+  position: fixed;
+  padding: 10px 28px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  background: #ff2d75;
+  color: #fff;
+  z-index: 5;
+  transition: transform 0.15s, box-shadow 0.15s;
+  animation: popIn 0.3s ease-out forwards;
+  transform: scale(0);
+}
+
+.yes-btn:hover {
+  transform: scale(1.1) !important;
+  box-shadow: 0 6px 24px rgba(255, 45, 117, 0.4);
+}
+
+@keyframes popIn {
+  0% { transform: scale(0); }
+  60% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+/* ===== Rising Love Hearts ===== */
+.love-rise {
+  position: fixed;
+  bottom: -40px;
+  pointer-events: none;
+  z-index: 1;
+  animation: loveRise var(--dur) ease-in-out forwards;
+  filter: drop-shadow(0 0 8px var(--clr));
+}
+
+@keyframes loveRise {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.2) rotate(0deg);
+  }
+  8% {
+    opacity: 0.9;
+    transform: translateY(-20px) scale(0.7) rotate(calc(var(--sway) * 0.3));
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(calc(var(--travel) * 0.2)) scale(1) rotate(calc(var(--sway) * -1));
+  }
+  35% {
+    transform: translateY(calc(var(--travel) * 0.35)) scale(1.05) rotate(calc(var(--sway) * 0.8));
+  }
+  50% {
+    opacity: 0.85;
+    transform: translateY(calc(var(--travel) * 0.5)) scale(1) rotate(calc(var(--sway) * -0.6));
+  }
+  65% {
+    transform: translateY(calc(var(--travel) * 0.65)) scale(0.95) rotate(calc(var(--sway) * 0.4));
+  }
+  80% {
+    opacity: 0.5;
+    transform: translateY(calc(var(--travel) * 0.8)) scale(0.85) rotate(calc(var(--sway) * -0.3));
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(var(--travel)) scale(0.5) rotate(calc(var(--sway) * 0.2));
+  }
+}
+
+/* ===== Mobile Responsive ===== */
+@media (max-width: 480px) {
+  body {
+    padding: 20px;
+    align-items: flex-start;
+    padding-top: 15vh;
+  }
+
+  .box {
+    padding: 28px 20px;
+    width: 100%;
+    border-radius: 14px;
+  }
+
+  .box p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 22px;
+  }
+
+  .buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 0.95rem;
+  }
+
+  .yes-btn {
+    padding: 8px 20px;
+    font-size: 0.8rem;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+  <p>apakah kamu SAYANG sama akuuu???</p>
+  <div class="buttons">
+    <button class="btn btn-primary">YES</button>
+    <button class="btn btn-secondary">NO</button>
+  </div>
+</div>
+
+<script>
+let loveInterval = null;
+
+function startLoveStorm() {
+  const colors = ['#ff2d75','#ff6b9d','#ff9ece','#e91e63','#f06292','#ff4081','#ff80ab','#f8bbd0','#ff1744'];
+
+  loveInterval = setInterval(() => {
+    const count = 3 + Math.floor(Math.random() * 4);
+    for (let i = 0; i < count; i++) {
+      setTimeout(() => {
+        const heart = document.createElement('div');
+        heart.className = 'love-rise';
+
+        const size = 16 + Math.random() * 32;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const dur = 2.5 + Math.random() * 3;
+        const travel = -(window.innerHeight + 60);
+
+        heart.style.setProperty('--dur', dur + 's');
+        heart.style.setProperty('--clr', color);
+        heart.style.setProperty('--travel', travel + 'px');
+        heart.style.setProperty('--sway', (15 + Math.random() * 25) + 'deg');
+        heart.style.left = (Math.random() * 100) + '%';
+
+        const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+        svg.setAttribute('width', size);
+        svg.setAttribute('height', size);
+        svg.setAttribute('viewBox','0 0 24 24');
+        svg.setAttribute('fill', color);
+        const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+        path.setAttribute('d','M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z');
+        svg.appendChild(path);
+        heart.appendChild(svg);
+
+        document.body.appendChild(heart);
+        heart.addEventListener('animationend', () => heart.remove());
+      }, i * 80);
+    }
+  }, 150);
+}
+
+document.querySelector('.btn-primary').addEventListener('click', () => {
+  alert('TERIMAKASIH SAYANK BTW U DID GOOD TODAY AT WORK LOVEEE UUUUUU SOMUCHHHHHHH');
+  if (!loveInterval) startLoveStorm();
+});
+
+let noClickCount = 0;
+
+document.querySelector('.btn-secondary').addEventListener('click', () => {
+  noClickCount++;
+  if (noClickCount >= 3) {
+    alert('capek bgt gweh hft ');
+  } else if (noClickCount === 2) {
+    alert('AYOLA MASA GA SAYANG SAMA AKU');
+  } else {
+    alert('pilih YES GA LO');
+  }
+  spawnYesButtons();
+});
+
+function spawnYesButtons() {
+  const count = 15;
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      const btn = document.createElement('button');
+      btn.className = 'yes-btn';
+      btn.textContent = 'YES';
+
+      const padding = 60;
+      const x = padding + Math.random() * (window.innerWidth - padding * 2);
+      const y = padding + Math.random() * (window.innerHeight - padding * 2);
+      btn.style.left = x + 'px';
+      btn.style.top = y + 'px';
+
+      btn.addEventListener('click', () => {
+        alert('TERIMAKASIH SAYANK BTW U DID GOOD TODAY AT WORK LOVEEE UUUUUU SOMUCHHHHHHH');
+        if (!loveInterval) startLoveStorm();
+      });
+
+      document.body.appendChild(btn);
+    }, i * 100);
+  }
+}
+</script>
+
+</body>
+</html>
